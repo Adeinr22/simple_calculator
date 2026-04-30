@@ -67,9 +67,24 @@ class MainApp(App):
 
     def on_solution(self, instance):
         text = self.solution.text
-        if text:
-            solution = str(eval(self.solution.text))
-            self.solution.text = solution
+        if not text:
+            return
+        try:
+            result = eval(text)
+            if isinstance(result, float):
+                result = round(result, 10)
+                if result.is_integer():
+                    result = int(result)
+            self.solution.text = str(result)    
+        except ZeroDivisionError:
+            self.solution.text = "Error: Division by zero"
+        except SyntaxError:
+            self.solution.text = "Error: Invalid expression"
+        except NameError:
+            self.solution.text = "Error: Use only numbers and operators"
+        except Exception as e:
+            self.solution.text = "Error"
+            print(f"Evaluation error: {e}")
 
 if __name__ == "__main__":
     app = MainApp()
