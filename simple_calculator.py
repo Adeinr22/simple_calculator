@@ -11,9 +11,11 @@ class MainApp(App):
         self.last_button = None
 
         main_layout = BoxLayout(orientation = "vertical")
-        self.solution = TextInput(background_color = "black", foreground_color = "white")
+        self.solution = TextInput(background_color = "black", foreground_color = "white",
+                                  multiline=False, halign="right", font_size=55)
 
         main_layout.add_widget(self.solution)
+        
         buttons = [
             ["7", "8", "9", "/"],
             ["4", "5", "6", "*"],
@@ -45,18 +47,23 @@ class MainApp(App):
         current = self.solution.text
         button_text = instance.text
 
-        if button_text == 'C':
-            self.solution.text = ""
-        else:
-            if current and (self.last_operator and button_text in self.operators):
-                return
-            elif current == "" and button_text in self.operators:
-                return
+        try:
+            if button_text == 'C':
+                self.solution.text = ""
             else:
-                new_text = current + button_text
-                self.solution.text = new_text
-        self.last_button = button_text
-        self.last_operator = self.last_button in self.operators
+                if current and (self.last_operator and button_text in self.operators):
+                    return
+                elif current == "" and button_text in self.operators:
+                    return
+                else:
+                    new_text = current + button_text
+                    self.solution.text = new_text
+        except Exception as e:
+            self.solution.text = "Error"
+            print(f"Button press error: {e}")
+        finally:
+            self.last_button = button_text
+            self.last_operator = self.last_button in self.operators
 
     def on_solution(self, instance):
         text = self.solution.text
