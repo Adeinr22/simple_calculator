@@ -29,9 +29,16 @@ class App(Tk, Calculator):
         self.title(title)
         self.geometry(geometry)
         self.resizable(False, False)
+        self.typing()
+
+    def buttons(self):
+        pass
 
     def typing(self):
-        pass
+        user_input = Entry(self,
+                           font="Comfortaa"
+                           )
+        user_input.pack(side=TOP)
 
     def run(self):
         self.mainloop()
