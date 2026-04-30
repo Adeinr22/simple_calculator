@@ -48,7 +48,7 @@ class MainApp(App):
         if button_text == 'C':
             self.solution.text = ""
         else:
-            if current and (self.last_was_operator and button_text in self.operators):
+            if current and (self.last_operator and button_text in self.operators):
                 return
             elif current == "" and button_text in self.operators:
                 return
@@ -57,7 +57,13 @@ class MainApp(App):
                 self.solution.text = new_text
         self.last_button = button_text
         self.last_operator = self.last_button in self.operators
-        
+
+    def on_solution(self, instance):
+        text = self.solution.text
+        if text:
+            solution = str(eval(self.solution.text))
+            self.solution.text = solution
+
 if __name__ == "__main__":
     app = MainApp()
     app.run()
